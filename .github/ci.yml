@@ -3,7 +3,8 @@ name: CI Workflow
 on:
   push:
     branches:
-      - main  # or any branch you want to monitor
+      - main
+      - development
 
 jobs:
   build:
@@ -18,7 +19,7 @@ jobs:
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Choose your preferred Python version
+          python-version: '3.12.4'
 
       # Install dependencies from requirements.txt
       - name: Install dependencies
