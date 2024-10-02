@@ -1,9 +1,9 @@
-name: Frontend
+name: frontend
 
 on:
   push:
     paths:
-      - frontend/**
+      - next_frontend/**
   pull_request:
     branches:
       - main
@@ -12,11 +12,11 @@ on:
 
 defaults:
   run:
-    working-directory: frontend
+    working-directory: next_frontend
 
 jobs:
   build:
-    environment: frontend
+    environment: next_frontend
     runs-on: ubuntu-latest
 
     strategy:
