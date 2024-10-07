@@ -1,27 +1,75 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* globals.css */
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #333;
+  margin: 0;
+  padding: 0;
   }
-}
+  
+  .container {
+  max-width: 1200px; /* Increased container width */
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-nav {
+  display: flex;
+  justify-content: space-between; /* Space out links */
+  padding: 20px; /* Add padding for better spacing */
+  background-color: #0070f3; /* Header background color */
+  color: white; /* Text color */
+  border-radius: 8px; /* Rounded corners */
+  }
+  
+  .header-button {
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 18px; /* Increase font size */
+  text-decoration: none; /* Remove underline */
+  }
+  
+  .header-button:hover {
+  text-decoration: underline; /* Underline on hover for visual feedback */
+  }
+  
+  .label-container {
+  display: flex;
+  justify-content: space-around; /* Space out labels horizontally */
+  margin-top: 20px; /* Add margin for spacing */
+  }
+  
+  label {
+  margin-right: 15px; /* Add space between labels */
+  font-weight: bold;
+  flex: 1; /* Ensure labels take equal space */
+  }
+  
+  h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  }
+  
+  .error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  }
+  
+  .notification {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+  text-align: center;
+  border: 1px solid #c3e6cb;
+  }
