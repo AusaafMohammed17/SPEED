@@ -1,4 +1,4 @@
-// src/app/form/page.tsx
+// src/pages/form.tsx
 'use client';
 
 import { useState, ChangeEvent, FormEvent } from 'react';
