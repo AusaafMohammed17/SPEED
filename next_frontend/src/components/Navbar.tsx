@@ -5,9 +5,9 @@ const Navbar: React.FC = () => {
   return (
     <nav>
       <ul>
-        <li><Link href="/"><a>Home</a></Link></li>
-        <li><Link href="/about"><a>About</a></Link></li>
-        <li><Link href="/form"><a>New Article</a></Link></li>
+        <li><Link href="/">Home</Link></li>
+        <li><Link href="/overview">Overview</Link></li>
+        <li><Link href="/form">New Article</Link></li>
       </ul>
     </nav>
     
