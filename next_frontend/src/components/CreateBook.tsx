@@ -32,7 +32,6 @@ const CreateBookComponent = () => {
     const updatedBook = {
       ...book,
       status: "admin",
-      last_updated: new Date().toISOString,
     };
 
 

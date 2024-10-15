@@ -3,11 +3,11 @@ import Link from 'next/link';
 import BookCard from './BookCard';
 import { Book } from './Book';
 
-function ShowBookList() {
+function ModerateBook() {
   const [books, setBooks] = useState<[Book?]>([]);
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/book')
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/book?status=admin')
       .then((res) => {
         return res.json();
       })
@@ -52,4 +52,4 @@ function ShowBookList() {
   );
 }
 
-export default ShowBookList;
+export default ModerateBook;
