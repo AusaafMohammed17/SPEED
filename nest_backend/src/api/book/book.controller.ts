@@ -13,7 +13,7 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './create-book.dto';
 import { error } from 'console';
 
-@Controller('api/books')
+@Controller('api/book')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 

@@ -7,7 +7,7 @@ function ShowBookList() {
   const [books, setBooks] = useState<[Book?]>([]);
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/books')
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/book')
       .then((res) => {
         return res.json();
       })
