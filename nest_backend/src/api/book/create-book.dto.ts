@@ -10,4 +10,5 @@ export class CreateBookDto {
   isbn: string;
   pages: string;
   update_date: Date;
+  status: string;
 }
