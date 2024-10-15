@@ -20,6 +20,10 @@ export class BookService {
     return await this.bookModel.findById(id).exec();
   }
 
+  async findForModeration(): Promise<Book[]> {
+    return await this.bookModel.find().select({ admin_status: 'admin' });
+  }
+
   async create(createBookDto: CreateBookDto) {
     return await this.bookModel.create(createBookDto);
   }
