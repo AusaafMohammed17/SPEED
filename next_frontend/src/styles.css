@@ -1,0 +1,13 @@
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar .form-control {
+    flex: 1;
+  }
+  
+  .search-bar .btn {
+    flex-shrink: 0;
+  }

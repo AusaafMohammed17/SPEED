@@ -1,23 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import BookCard from './BookCard';
-import { Book } from './Book';
+import SearchBar from './SearchBar'; // Assuming you have a SearchBar component
+import BookCard from './BookCard'; // Assuming you have a BookCard component
+
+interface Book {
+  title: string;
+  author: string;
+  genre: string;
+  journal_name: string;
+  published_date: Date;
+  publisher: string;
+  volume: string;
+  isbn: string;
+  pages: string;
+  updated_date: Date;
+  status: string;
+}
 
 function ShowBookList() {
-  const [books, setBooks] = useState<[Book?]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/api/book')
-      .then((res) => {
-        return res.json();
-      })
-      .then((books) => {
-        setBooks(books);
+      .then((res) => res.json())
+      .then((books: Book[]) => {
+        const formattedBooks = books.map(book => ({
+          ...book,
+          published_date: new Date(book.published_date)
+        }));
+        setBooks(formattedBooks);
       })
       .catch((err) => {
         console.log('Error from ShowBookList: ' + err);
       });
   }, []);
+
+  const handleSearch = (query: string, field: keyof Book) => {
+    const filtered = books.filter((book) =>
+      typeof book[field] === 'string' && book[field]?.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredBooks(filtered);
+  };
 
   const bookList =
     books.length === 0
@@ -32,7 +56,6 @@ function ShowBookList() {
             <br />
             <h2 className='display-4 text-center'>Books List</h2>
           </div>
-
           <div className='col-md-11'>
             <Link
               href='/book/create-book'
@@ -40,13 +63,14 @@ function ShowBookList() {
             >
               + Add New Book
             </Link>
-            <br />
-            <br />
-            <hr />
+          </div>
+          <div className='col-md-12'>
+            <SearchBar onSearch={handleSearch} />
           </div>
         </div>
-
-        <div className='list'>{bookList}</div>
+        <div className='row'>
+          {bookList}
+        </div>
       </div>
     </div>
   );

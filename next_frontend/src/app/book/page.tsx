@@ -2,6 +2,8 @@
 
 import ShowBookList from "@/components/ShowBookList";
 
+//import './styles.css';
+
 export default function Home() {
   return (
     <main>
