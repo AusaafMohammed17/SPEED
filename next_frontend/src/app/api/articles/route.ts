@@ -32,3 +32,20 @@ export async function POST(request: Request) {
   articles.push(body); // Add the new article to the articles array
   return NextResponse.json({ message: 'Article submitted successfully!' }, { status: 201 });
 }
+
+// GET endpoint to search articles
+export async function SEARCH(request: Request) {
+  const { query, field } = await request.json(); // Parse the incoming JSON data
+
+  // Validate the query and field
+  if (!query || !field) {
+    return NextResponse.json({ message: 'Invalid search data!' }, { status: 400 });
+  }
+
+  // Filter articles based on the query and field
+  const filteredArticles = articles.filter(article =>
+    article[field as keyof Article]?.toString().toLowerCase().includes(query.toLowerCase())
+  );
+
+  return NextResponse.json(filteredArticles); // Return the filtered articles as JSON
+}
