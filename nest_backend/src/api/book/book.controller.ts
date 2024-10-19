@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './create-book.dto';
@@ -48,6 +49,27 @@ export class BookController {
         {
           status: HttpStatus.NOT_FOUND,
           error: 'No Book found',
+        },
+        HttpStatus.NOT_FOUND,
+        { cause: error },
+      );
+    }
+  }
+
+  // Find Books for Administration
+  @Get('/book')
+  async findForModeration(@Query('admin_status') admin_status: string) {
+    try {
+      console.log('something went wrong backend');
+
+      const unsortedBooks =
+        await this.bookService.findForModeration(admin_status);
+      return unsortedBooks;
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'No books found',
         },
         HttpStatus.NOT_FOUND,
         { cause: error },

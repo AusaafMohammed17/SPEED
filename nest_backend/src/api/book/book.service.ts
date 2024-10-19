@@ -20,9 +20,17 @@ export class BookService {
     return await this.bookModel.findById(id).exec();
   }
 
-  async findForModeration(): Promise<Book[]> {
-    return await this.bookModel.find().select({ admin_status: 'admin' });
+  async findForModeration(status: string): Promise<Book[]> {
+    if (status) {
+      // MongoDB query to filter by status
+      console.log('something went right');
+      return await this.bookModel.find({ admin_status: 'status' }).exec();
+    }
+    // If no status is passed, return all books
+    console.log('something went wrong');
+    //return await this.bookModel.find().exec();
   }
+  //{ admin_status: 'admin' }
 
   async create(createBookDto: CreateBookDto) {
     return await this.bookModel.create(createBookDto);
