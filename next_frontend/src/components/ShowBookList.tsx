@@ -65,7 +65,7 @@ function ShowBookList() {
             </Link>
           </div>
           <div className='col-md-12'>
-            <SearchBar onSearch={handleSearch} />
+
           </div>
         </div>
         <div className='row'>
