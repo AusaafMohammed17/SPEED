@@ -16,17 +16,14 @@ const BookCard = ({ book }: IProp) => {
   };
   return (
     <div className='card-container' onClick={onClick}>
-      <img
-        src='https://images.unsplash.com/photo-1495446815901-a7297e633e8d'
-        alt='Books'
-        height={200}
-      />
-      <div className='desc'>
-        <h2>
-          {book.title}
-        </h2>
-        <h3>{book.author}</h3>
-      </div>
+      
+      <li className="article-item">
+              <h3>{book.title}</h3>
+              <p><strong>Authors:</strong> {book.author}</p>
+              <p><strong>Journal:</strong> {book.journal_name}, {book.published_date}</p>
+              <p><strong>Volume:</strong> {book.volume}, <strong>Number:</strong> {book.isbn}, <strong>Pages:</strong> {book.pages}</p>
+            </li>
+
     </div>
   );
 };

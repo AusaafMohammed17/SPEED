@@ -1,4 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+};
 
-export default nextConfig;
+module.exports = {
+  ...nextConfig,
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path',
+        destination: `${process.env.API_URL}/:path*`,
+      },
+    ];
+  },
+};
