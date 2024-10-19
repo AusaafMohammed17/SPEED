@@ -6,6 +6,7 @@ interface IProp {
   book?: Book;
 }
 
+
 const BookCard = ({ book }: IProp) => {
   const router = useRouter();
   if (book == undefined) {

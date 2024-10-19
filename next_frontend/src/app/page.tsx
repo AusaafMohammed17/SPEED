@@ -13,16 +13,8 @@ interface Article {
   year: number;
   volume: number;
   number: number;
-  pages: number;
+  pages: string;
   doi: string;
-  author: string;
-  journal_name: string;
-  published_date: string;
-  publisher: string;
-  isbn: string;
-  description: string;
-  updated_date: string;
-  status: string;
 }
 
 export default function HomePage() {
@@ -44,7 +36,7 @@ export default function HomePage() {
   }, []);
 
   const handleSearch = async (query: string, field: keyof Article) => {
-    const response = await fetch('/api/articles/search', {
+    const response = await fetch('/api/articles', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,16 +53,25 @@ export default function HomePage() {
   const articleList =
     filteredArticles.length === 0
       ? 'There is no article record!'
-      : filteredArticles.map((article, k) => {
-          const book = {
-            ...article,
-            volume: article.volume.toString(),
-            pages: article.pages.toString(),
-            published_date: new Date(article.published_date),
-            updated_date: new Date(article.updated_date),
-          };
-          return <BookCard book={book} key={k} />;
-        });
+      : filteredArticles.map((article, k) => (
+          <BookCard
+            book={{
+              title: article.title,
+              author: article.authors,
+              journal_name: article.journalName,
+              published_date: new Date(article.year, 0), // Assuming the year is the only information available
+              volume: article.volume.toString(),
+              number: article.number,
+              pages: article.pages,
+              doi: article.doi,
+              publisher: '', // Add appropriate value
+              isbn: '', // Add appropriate value
+              updated_date: new Date(), // Add appropriate value
+              status: '', // Add appropriate value
+            }}
+            key={k}
+          />
+        ));
 
   return (
     <div className='ShowArticleList'>

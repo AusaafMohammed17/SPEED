@@ -5,36 +5,30 @@ interface Article {
   title: string;
   authors: string;
   journalName: string;
-  year: number; // Assuming year is a number
+  year: number;
   volume: number;
   number: number;
-  pages: number;
+  pages: string;
   doi: string;
 }
 
-// Use const instead of let for the articles array
-const articles: Article[] = []; // This will hold the submitted articles in memory
+// Function to fetch articles from the backend
+async function fetchArticlesFromBackend(query: string, field: keyof Article): Promise<Article[]> {
+  const response = await fetch(`http://your-backend-url/api/articles?query=${query}&field=${field}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch articles from backend');
+  }
+  return response.json();
+}
 
 // GET endpoint to retrieve all articles
 export async function GET() {
+  const articles = await fetchArticlesFromBackend('', 'title'); // Fetch all articles using 'title' as the default field
   return NextResponse.json(articles); // Return the articles as JSON
 }
 
-// POST endpoint to submit a new article
+// POST endpoint to search articles
 export async function POST(request: Request) {
-  const body: Article = await request.json(); // Parse the incoming JSON data
-
-  // Optionally, you can perform validation here
-  if (!body.title || !body.authors || !body.journalName) {
-    return NextResponse.json({ message: 'Invalid article data!' }, { status: 400 });
-  }
-
-  articles.push(body); // Add the new article to the articles array
-  return NextResponse.json({ message: 'Article submitted successfully!' }, { status: 201 });
-}
-
-// GET endpoint to search articles
-export async function SEARCH(request: Request) {
   const { query, field } = await request.json(); // Parse the incoming JSON data
 
   // Validate the query and field
@@ -42,10 +36,11 @@ export async function SEARCH(request: Request) {
     return NextResponse.json({ message: 'Invalid search data!' }, { status: 400 });
   }
 
-  // Filter articles based on the query and field
-  const filteredArticles = articles.filter(article =>
-    article[field as keyof Article]?.toString().toLowerCase().includes(query.toLowerCase())
-  );
-
-  return NextResponse.json(filteredArticles); // Return the filtered articles as JSON
+  try {
+    const articles = await fetchArticlesFromBackend(query, field as keyof Article); // Fetch filtered articles
+    return NextResponse.json(articles); // Return the filtered articles as JSON
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
+  }
 }

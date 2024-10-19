@@ -6,6 +6,8 @@ export type Book = {
     published_date: Date;
     publisher: string;
     volume: string;
+    number: number;
+    doi: string;
     isbn: string;
     pages: string;
     updated_date: Date;
@@ -20,6 +22,8 @@ export const DefaultEmptyBook: Book = {
     published_date: new Date(),
     publisher: '',
     volume: '',
+    number: 0,
+    doi: '',
     isbn: '',
     pages: '',
     updated_date: new Date(),
