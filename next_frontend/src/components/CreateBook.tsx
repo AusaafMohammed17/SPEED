@@ -1,11 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Book, DefaultEmptyBook } from "./Book";
 
 const CreateBookComponent = () => {
   const navigate = useRouter();
-
   const [book, setBook] = useState<Book>(DefaultEmptyBook);
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
@@ -29,7 +27,11 @@ const CreateBookComponent = () => {
       return;
     }
 
-
+    const updatedBook = {
+      ...book,
+      status: "admin",
+      last_updated: new Date().toISOString(),
+    };
 
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
       method: "POST",
@@ -52,12 +54,6 @@ const CreateBookComponent = () => {
     <div className="CreateBook">
       <div className="container">
         <div className="row">
-          <div className="col-md-8 m-auto">
-            <br />
-            <Link href="/book/" className="btn btn-outline-warning float-left">
-              Show Book List
-            </Link>
-          </div>
           <div className="col-md-10 m-auto">
             <h1 className="display-4 text-center">Add Book</h1>
             <p className="lead text-center">Create new book</p>
