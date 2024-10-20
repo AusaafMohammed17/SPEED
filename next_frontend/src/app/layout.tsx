@@ -34,9 +34,11 @@ export default function RootLayout({
         {/* Side menu sliding in from the right */}
         <div className={`side-menu ${menuOpen ? 'show' : ''}`}>
           <ul>
-            <li><Link href="/book/moderate-book" onClick={() => setMenuOpen(false)}>Moderate Books</Link></li>
-            <li><Link href="/book/create-book" onClick={() => setMenuOpen(false)}>Create a Book</Link></li>
             <li><Link href="/book" onClick={() => setMenuOpen(false)}>View Book List</Link></li>
+            <li><Link href="/book/create-book" onClick={() => setMenuOpen(false)}>Create a Book</Link></li>
+            <li><Link href="/book/search-book" onClick={() => setMenuOpen(false)}>Search Books</Link></li>
+            <li><Link href="/book/moderate-book" onClick={() => setMenuOpen(false)}>Moderate Books</Link></li>
+            <li><Link href="/book/practition-book" onClick={() => setMenuOpen(false)}>Practition Books</Link></li>
           </ul>
         </div>
 

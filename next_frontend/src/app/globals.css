@@ -57,7 +57,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-align: center;
   padding: 10px;
   background-color: #333;
   color: #fff;
@@ -120,8 +119,8 @@ body {
   z-index: 900; /* Lower z-index than the header-nav */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center the content vertically */
-  padding-top: 60px; /* Add padding to avoid overlap with the navbar */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
 }
 
 .side-menu.show {
@@ -131,17 +130,26 @@ body {
 .side-menu ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Evenly distribute the items vertically */
+  height: 60%; /* Control the height of the list items */
+  width: 100%; /* Ensure the list items take the full width */
+  align-items: center; /* Center items horizontally */
 }
 
 .side-menu ul li {
-  margin: 20px 0;
+  width: 100%;
 }
 
 .side-menu ul li a {
+  display: block;
   color: #fff;
   text-decoration: none;
   font-size: 18px;
-  text-align: center; /* Center the menu items */
+  padding: 10px;
+  text-align: center;
 }
 
 .side-menu ul li a:hover {
