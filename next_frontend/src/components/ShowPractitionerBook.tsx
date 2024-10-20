@@ -1,10 +1,15 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Book, DefaultEmptyBook } from "./Book";
+'use client'
 
-const CreateBookComponent = () => {
-  const navigate = useRouter();
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Book, DefaultEmptyBook } from './Book';
+
+const EditBookByPractitioner = () => {
   const [book, setBook] = useState<Book>(DefaultEmptyBook);
+
+  const id = useParams<{ id: string }>().id;
+  const navigate = useRouter();
+
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
   const requiredFields = [
@@ -13,11 +18,31 @@ const CreateBookComponent = () => {
     "isbn",
   ];
 
+  // Fetch book data by ID when component mounts
+  useEffect(() => {
+    console.log(id);
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/book/${id}`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((json) => {
+        setBook(json);
+      })
+      .catch((err) => {
+        console.log('Error from ShowBookDetails: ' + err);
+      });
+  }, [id]);
+
+    const formattedDate = book.published_date.toString().split('T')[0]; // Extract the date part
+
+
+  // Handle form input changes
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBook({ ...book, [event.target.name]: event.target.value });
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  // Handle form submission
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Check for missing fields
@@ -28,29 +53,32 @@ const CreateBookComponent = () => {
     }
 
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
-    })
-      .then((res) => {
-        console.log(res);
-        setBook(DefaultEmptyBook);
-        navigate.push("/book");
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(book),
       })
-      .catch((err) => {
-        console.log("Error from CreateBook: " + err);
-      });
+        .then((res) => {
+          console.log(res);
+          setBook(DefaultEmptyBook);
+          navigate.push("/book/practition-book");
+        })
+        .catch((err) => {
+          console.log("Error from CreateBook: " + err);
+        });
   };
 
   const isFieldMissing = (fieldName: string) => missingFields.includes(fieldName);
 
   return (
-    <div className="CreateBook">
+    <div className="EditBook">
       <div className="container">
+        <div>
+            {book.title}
+        </div>
         <div className="row">
           <div className="col-md-10 m-auto">
-            <h1 className="display-4 text-center">Add Book</h1>
-            <p className="lead text-center">Create new book</p>
+            <h1 className="display-4 text-center">Edit Book</h1>
+            <p className="lead text-center">Edit the details of the book</p>
             <form noValidate onSubmit={onSubmit}>
               <div className="form-group">
                 <input
@@ -94,7 +122,7 @@ const CreateBookComponent = () => {
                   placeholder="Published Date"
                   name="published_date"
                   className={`form-control ${isFieldMissing("published_date") ? "is-invalid" : ""}`}
-                  value={book.published_date?.toString()}
+                  value={formattedDate}
                   onChange={onChange}
                 />
                 {isFieldMissing("published_date") && <small className="text-danger">Published date is required</small>}
@@ -149,7 +177,7 @@ const CreateBookComponent = () => {
               </div>
               <button
                 type="submit"
-                className="btn btn-outline-warning btn-block mt-4 mb-4 w-100"
+                className="btn btn-outline-success btn-block mt-4 mb-4 w-100"
               >
                 Submit
               </button>
@@ -161,4 +189,4 @@ const CreateBookComponent = () => {
   );
 };
 
-export default CreateBookComponent;
+export default EditBookByPractitioner;

@@ -8,13 +8,12 @@ interface IProp {
 
 const BookCard = ({ book }: IProp) => {
   const router = useRouter();
-
   if (book == undefined) {
     return null;
   }
 
   const onClick = () => {
-    router.push(`/show-book/${book._id}`);
+    router.push(window.location.href += `/show-book/${book._id}`);
   };
 
   return (
