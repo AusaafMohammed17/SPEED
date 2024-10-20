@@ -29,18 +29,12 @@ const CreateBookComponent = () => {
       return;
     }
 
-    const updatedBook = {
-      ...book,
-      status: "admin",
-      last_updated: new Date().toISOString,
-    };
-
 
 
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedBook),
+      body: JSON.stringify(book),
     })
       .then((res) => {
         console.log(res);

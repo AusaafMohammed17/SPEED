@@ -22,6 +22,6 @@ export class Book {
   @Prop({ type: Date })
   updated_date: Date;
   @Prop()
-  status: string;
+  admin_status: string;
 }
 export const BookSchema = SchemaFactory.createForClass(Book);
