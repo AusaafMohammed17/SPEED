@@ -9,7 +9,7 @@ export type Book = {
     isbn: string;
     pages: string;
     updated_date: Date;
-    status: string;
+    admin_status: string;
 };
 
 export const DefaultEmptyBook: Book = {
@@ -23,6 +23,6 @@ export const DefaultEmptyBook: Book = {
     isbn: '',
     pages: '',
     updated_date: new Date(),
-    status: 'admin',
+    admin_status: 'admin',
 }
 
