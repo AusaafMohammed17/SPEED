@@ -24,6 +24,7 @@ const SearchArticles = () => {
       const books = await res.json();
 
       // Filter books based on the selected filter and search query
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const filtered = books.filter((book: any) => {
         if (!book[filterBy]) return false;
         return book[filterBy].toLowerCase().includes(searchQuery.toLowerCase());

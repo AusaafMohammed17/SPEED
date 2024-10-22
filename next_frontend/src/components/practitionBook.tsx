@@ -36,35 +36,7 @@ function PractitionerPage() {
     return filtered;
   };
 
-  // Handler for accepting a book (set admin_status to "public")
-  const handleAccept = async (bookId: string) => {
-    if (!bookId) return;
-
-    try {
-      // Fetch the book by ID
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${bookId}`);
-      const book = await res.json();
-
-      if (book) {
-        // Update admin_status to 'public'
-        book.admin_status = 'public';
-
-        // Update the book with new status
-        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${bookId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(book), // Send updated book
-        });
-
-        // Optionally refresh the page or update the list
-      }
-    } catch (err) {
-      console.log('Error accepting book:', err);
-    }
-  };
-
+  
   // Handler for rejecting a book
   const handleReject = async (bookId: string) => {
     if (!bookId) return;
@@ -90,12 +62,9 @@ function PractitionerPage() {
       : practitionerBooks.map((book, k) => (
           <div key={k} className="book-item">
             <BookCard book={book} />
-            {/* Buttons to accept or reject the book */}
-            <button className="btn btn-success" onClick={() => handleAccept(book._id!)}>
-              Accept
-            </button>
+            {/* Button to delete the book */}
             <button className="btn btn-danger" onClick={() => handleReject(book._id!)}>
-              Reject
+              Delete
             </button>
           </div>
         ));
@@ -112,6 +81,7 @@ function PractitionerPage() {
           <div className="col-md-11">
             <label>Start Date:</label>
             <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <br />
             <label>End Date:</label>
             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
             <br />
