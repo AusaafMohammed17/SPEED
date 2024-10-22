@@ -26,7 +26,7 @@ const CreateBookComponent = () => {
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedBook), // Use updatedBook here
+      body: JSON.stringify(book), // Use updatedBook here
     })
       .then((res) => {
         console.log(res);
