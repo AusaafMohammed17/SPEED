@@ -27,7 +27,7 @@ function PractitionerPage() {
 
   // Function to filter books by publish date range
   const filterBooksByDate = () => {
-    const filtered = books.filter((book) => {
+    const filtered = practitionerBooksUnsorted.filter((book) => {
       const publishDate = new Date(book.published_date);
       const start = startDate ? new Date(startDate) : null;
       const end = endDate ? new Date(endDate) : null;
@@ -54,8 +54,10 @@ function PractitionerPage() {
   };
 
   // Filtered book list based on date range
-  const practitionerBooks = filterBooksByDate();
+  const practitionerBooksUnsorted = books.filter((book) => book.admin_status === 'accepted');
 
+  const practitionerBooks = filterBooksByDate();
+  
   const bookList =
     practitionerBooks.length === 0
       ? 'No books found for the selected date range!'

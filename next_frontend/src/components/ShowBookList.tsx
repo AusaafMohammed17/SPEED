@@ -27,10 +27,12 @@ function ShowBookList({ books: propBooks }: ShowBookListProps) {
     }
   }, [propBooks]); // Runs whenever propBooks changes
 
+  const publicBooks = books.filter((book) => book.admin_status === 'public');
+
   const bookList =
-    books.length === 0
+    publicBooks.length === 0
       ? "There is no book record!"
-      : books.map((book, k) => <BookCard book={book} key={k} />);
+      : publicBooks.map((book, k) => <BookCard book={book} key={k} />);
 
   return (
     <div className="ShowBookList">

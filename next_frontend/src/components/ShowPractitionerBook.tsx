@@ -43,29 +43,42 @@ const EditBookByPractitioner = () => {
 
   // Handle form submission
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (!id) return;
     event.preventDefault();
 
-    // Check for missing fields
     const missing = requiredFields.filter((field) => !book[field as keyof Book]);
     if (missing.length > 0) {
       setMissingFields(missing);
       return;
     }
 
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(book),
-      })
-        .then((res) => {
-          console.log(res);
-          setBook(DefaultEmptyBook);
-          navigate.push("/book/practition-book");
-        })
-        .catch((err) => {
-          console.log("Error from CreateBook: " + err);
+
+    try {
+      // Fetch the book by ID
+      //const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${id}`);
+      //const book = await res.json();
+
+      if (book) {
+        // Update admin_status to 'accepted'
+        book.admin_status = 'public';
+
+        // Update the book with new status
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(book), // Send updated book
         });
+
+        // Remove the book from the list in the frontend
+        navigate.push("/book");
+      }
+    } catch (err) {
+      console.log('Error accepting book:', err);
+    }
   };
+
 
   const isFieldMissing = (fieldName: string) => missingFields.includes(fieldName);
 
