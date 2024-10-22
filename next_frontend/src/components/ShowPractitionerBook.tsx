@@ -33,7 +33,7 @@ const EditBookByPractitioner = () => {
       });
   }, [id]);
 
-    const formattedDate = book.published_date.toString().split('T')[0]; // Extract the date part
+  const formattedDate = book.published_date.toString().split('T')[0]; // Extract the date part
 
 
   // Handle form input changes
