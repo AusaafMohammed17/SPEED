@@ -34,7 +34,7 @@ const BookCard = ({ book }: IProp) => {
         </div>
         <div className="label">
           <strong>Published Date:</strong>
-          <span>{book.published_date}</span>
+          <span>{book.published_date?.toString().split('T')[0]}</span>
         </div>
         <div className="label">
           <strong>Volume:</strong>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import BookCard from "./BookCard";
 import { Book } from "./Book";
 
