@@ -7,11 +7,7 @@ const CreateBookComponent = () => {
   const [book, setBook] = useState<Book>(DefaultEmptyBook);
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
-  const requiredFields = [
-    "title",
-    "author",
-    "isbn",
-  ];
+  const requiredFields = ["title", "author", "isbn"];
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBook({ ...book, [event.target.name]: event.target.value });
@@ -36,7 +32,7 @@ const CreateBookComponent = () => {
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
+      body: JSON.stringify(updatedBook), // Use updatedBook here
     })
       .then((res) => {
         console.log(res);
@@ -91,7 +87,9 @@ const CreateBookComponent = () => {
                   value={book.journal_name}
                   onChange={onChange}
                 />
-                {isFieldMissing("journal_name") && <small className="text-danger">Journal name is required</small>}
+                {isFieldMissing("journal_name") && (
+                  <small className="text-danger">Journal name is required</small>
+                )}
               </div>
               <br />
               <div className="form-group">
@@ -103,7 +101,9 @@ const CreateBookComponent = () => {
                   value={book.published_date?.toString()}
                   onChange={onChange}
                 />
-                {isFieldMissing("published_date") && <small className="text-danger">Published date is required</small>}
+                {isFieldMissing("published_date") && (
+                  <small className="text-danger">Published date is required</small>
+                )}
               </div>
               <br />
               <div className="form-group">
@@ -153,10 +153,7 @@ const CreateBookComponent = () => {
                 />
                 {isFieldMissing("pages") && <small className="text-danger">Number of pages is required</small>}
               </div>
-              <button
-                type="submit"
-                className="btn btn-outline-warning btn-block mt-4 mb-4 w-100"
-              >
+              <button type="submit" className="btn btn-outline-warning btn-block mt-4 mb-4 w-100">
                 Submit
               </button>
             </form>
