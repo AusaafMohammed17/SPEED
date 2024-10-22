@@ -24,6 +24,7 @@ const SearchArticles = () => {
       const books = await res.json();
 
       // Filter books based on the selected filter and search query
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const filtered = books.filter((book: any) => {
         if (!book[filterBy]) return false;
         return book[filterBy].toLowerCase().includes(searchQuery.toLowerCase());
@@ -37,7 +38,8 @@ const SearchArticles = () => {
 
   return (
     <div className="search-articles">
-      <h2>Search Books</h2>
+      <h1>Search Books</h1>
+      <hr />
       <form onSubmit={handleSearch}>
         <div className="form-group">
           <label htmlFor="filterBy">Filter by:</label>

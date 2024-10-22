@@ -8,14 +8,14 @@ interface IProp {
 
 const BookCard = ({ book }: IProp) => {
   const router = useRouter();
-
   if (book == undefined) {
     return null;
   }
 
   const onClick = () => {
-    router.push(`/show-book/${book._id}`);
+    router.push(window.location.href += `/show-book/${book._id}`);
   };
+  
 
   return (
     <div className='card-container' onClick={onClick}>
@@ -34,7 +34,7 @@ const BookCard = ({ book }: IProp) => {
         </div>
         <div className="label">
           <strong>Published Date:</strong>
-          <span>{book.published_date}</span>
+          <span>{book.published_date?.toString().split('T')[0]}</span>
         </div>
         <div className="label">
           <strong>Volume:</strong>

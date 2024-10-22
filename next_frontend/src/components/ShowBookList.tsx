@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+//import Link from "next/link";
 import BookCard from "./BookCard";
 import { Book } from "./Book";
 
@@ -27,22 +27,23 @@ function ShowBookList({ books: propBooks }: ShowBookListProps) {
     }
   }, [propBooks]); // Runs whenever propBooks changes
 
+  const publicBooks = books.filter((book) => book.admin_status === 'public');
+
   const bookList =
-    books.length === 0
+    publicBooks.length === 0
       ? "There is no book record!"
-      : books.map((book, k) => <BookCard book={book} key={k} />);
+      : publicBooks.map((book, k) => <BookCard book={book} key={k} />);
 
   return (
     <div className="ShowBookList">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <br />
-            <h2 className="display-4 text-center">Books List</h2>
-          </div>
+      <div className="row">
+        <div className="col-md-12">
+          <br />
+          <h1 className="display-4 text-center">Books List</h1>
+          <hr />
         </div>
-        <div className="list">{bookList}</div>
       </div>
+      <div className="list">{bookList}</div>
     </div>
   );
 }
