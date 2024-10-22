@@ -71,11 +71,10 @@ function PractitionerPage() {
 
   return (
     <div className="ShowBookList">
-      <div className="container">
         <div className="row">
           <div className="col-md-12">
             <br />
-            <h2 className="display-4 text-center">Practitioner Book List</h2>
+            <h1 className="display-4 text-center">Practitioner Book List</h1>
           </div>
 
           <div className="col-md-11">
@@ -91,7 +90,6 @@ function PractitionerPage() {
         </div>
 
         <div className="list">{bookList}</div>
-      </div>
     </div>
   );
 }
