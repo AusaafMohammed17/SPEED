@@ -69,6 +69,7 @@ const EditBookByPractitioner = () => {
 
   const isFieldMissing = (fieldName: string) => missingFields.includes(fieldName);
 
+
   return (
     <div className="EditBook">
       <div className="container">
