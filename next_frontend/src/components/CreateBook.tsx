@@ -7,11 +7,7 @@ const CreateBookComponent = () => {
   const [book, setBook] = useState<Book>(DefaultEmptyBook);
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
-  const requiredFields = [
-    "title",
-    "author",
-    "isbn",
-  ];
+  const requiredFields = ["title", "author", "isbn"];
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBook({ ...book, [event.target.name]: event.target.value });
@@ -30,7 +26,7 @@ const CreateBookComponent = () => {
     fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
+      body: JSON.stringify(updatedBook), // Use updatedBook here
     })
       .then((res) => {
         console.log(res);
