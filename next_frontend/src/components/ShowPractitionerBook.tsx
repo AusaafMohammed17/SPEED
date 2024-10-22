@@ -1,51 +1,95 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Book, DefaultEmptyBook } from "./Book";
+'use client'
 
-const CreateBookComponent = () => {
-  const navigate = useRouter();
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Book, DefaultEmptyBook } from './Book';
+
+const EditBookByPractitioner = () => {
   const [book, setBook] = useState<Book>(DefaultEmptyBook);
+
+  const id = useParams<{ id: string }>().id;
+  const navigate = useRouter();
+
   const [missingFields, setMissingFields] = useState<string[]>([]);
 
-  const requiredFields = ["title", "author", "isbn"];
+  const requiredFields = [
+    "title",
+    "author",
+    "isbn",
+  ];
 
+  // Fetch book data by ID when component mounts
+  useEffect(() => {
+    console.log(id);
+    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + `/api/book/${id}`)
+      .then((res) => {
+        return res.json()
+      })
+      .then((json) => {
+        setBook(json);
+      })
+      .catch((err) => {
+        console.log('Error from ShowBookDetails: ' + err);
+      });
+  }, [id]);
+
+  const formattedDate = book.published_date.toString().split('T')[0]; // Extract the date part
+
+
+  // Handle form input changes
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBook({ ...book, [event.target.name]: event.target.value });
   };
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  // Handle form submission
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    if (!id) return;
     event.preventDefault();
 
-    // Check for missing fields
     const missing = requiredFields.filter((field) => !book[field as keyof Book]);
     if (missing.length > 0) {
       setMissingFields(missing);
       return;
     }
 
-    fetch(process.env.NEXT_PUBLIC_BACKEND_URL + "/api/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book), // Use updatedBook here
-    })
-      .then((res) => {
-        console.log(res);
-        setBook(DefaultEmptyBook);
+
+    try {
+      // Fetch the book by ID
+      //const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${id}`);
+      //const book = await res.json();
+
+      if (book) {
+        // Update admin_status to 'accepted'
+        book.admin_status = 'public';
+
+        // Update the book with new status
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(book), // Send updated book
+        });
+
+        // Remove the book from the list in the frontend
         navigate.push("/book");
-      })
-      .catch((err) => {
-        console.log("Error from CreateBook: " + err);
-      });
+      }
+    } catch (err) {
+      console.log('Error accepting book:', err);
+    }
   };
+
 
   const isFieldMissing = (fieldName: string) => missingFields.includes(fieldName);
 
+
   return (
-    <div className="CreateBook">
+    <div className="EditBook">
       <div className="row">
         <div className="col-md-10 m-auto">
-          <h1 className="display-4 text-center">Create a Book</h1>
+          <h1 className="display-4 text-center">Edit &quot;{book.title}&quot;</h1>
           <hr />
+          <p className="lead text-center items-justify-center">Edit the details of the book</p>
           <form noValidate onSubmit={onSubmit}>
             <div className="form-group">
               <input
@@ -89,7 +133,7 @@ const CreateBookComponent = () => {
                 placeholder="Published Date"
                 name="published_date"
                 className={`form-control ${isFieldMissing("published_date") ? "is-invalid" : ""}`}
-                value={book.published_date?.toString()}
+                value={formattedDate}
                 onChange={onChange}
               />
               {isFieldMissing("published_date") && <small className="text-danger">Published date is required</small>}
@@ -144,7 +188,7 @@ const CreateBookComponent = () => {
             </div>
             <button
               type="submit"
-              className="btn btn-outline-warning btn-block mt-4 mb-4 w-100"
+              className="btn btn-outline-success btn-block mt-4 mb-4 w-100"
             >
               Submit
             </button>
@@ -155,4 +199,4 @@ const CreateBookComponent = () => {
   );
 };
 
-export default CreateBookComponent;
+export default EditBookByPractitioner;

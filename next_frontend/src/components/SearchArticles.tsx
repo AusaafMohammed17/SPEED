@@ -38,7 +38,8 @@ const SearchArticles = () => {
 
   return (
     <div className="search-articles">
-      <h2>Search Books</h2>
+      <h1>Search Books</h1>
+      <hr />
       <form onSubmit={handleSearch}>
         <div className="form-group">
           <label htmlFor="filterBy">Filter by:</label>
